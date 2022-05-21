@@ -3,7 +3,7 @@ package com.lqz.utils;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.lqz.constant.BaiduConstant;
-import org.springframework.lang.Nullable;
+import com.sun.istack.internal.Nullable;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

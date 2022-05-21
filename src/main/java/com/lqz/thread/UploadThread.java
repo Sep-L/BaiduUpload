@@ -22,13 +22,7 @@ public class UploadThread implements Callable<String> {
     @Override
     public String call() {
         String response;
-        // try {
-            response = HttpUtil.post(url, requestMap);
-        // } catch (Exception e) {
-        //     response = HttpRequest.post(url)
-        //             .header(Header.CONTENT_TYPE, ContentType.FORM_URLENCODED.toString())
-        //             .form(requestMap).execute().body();
-        // }
+        response = HttpUtil.post(url, requestMap);
         return response;
     }
 }

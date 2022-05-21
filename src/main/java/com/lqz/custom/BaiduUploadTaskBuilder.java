@@ -18,7 +18,7 @@ public class BaiduUploadTaskBuilder {
     /**
      * 设置要处理的文件
      */
-    private File file;
+    private File srcFile;
     /**
      * 设置临时文件的路径, 会随着文件的确定一同设置
      */
@@ -32,16 +32,15 @@ public class BaiduUploadTaskBuilder {
      */
     private String appPath;
 
-
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
 
     public BaiduUploadTask build() {
         checkArgs();
-        return BaiduUploadTask.getInstance(accessToken, appPath, file, tempPath);
+        return BaiduUploadTask.getInstance(accessToken, appPath, srcFile, tempPath);
     }
 
     public BaiduUploadTaskBuilder setFile(File file) {
-        this.file = file;
+        this.srcFile = file;
         this.tempPath = setTempPathByFile(file);
         return this;
     }
@@ -53,15 +52,14 @@ public class BaiduUploadTaskBuilder {
     }
 
     private void checkArgs() {
-        if (file == null) {
+        if (srcFile == null) {
             throw new RuntimeException("未指定上传的文件");
         }
         if (accessToken == null) {
             throw new RuntimeException("未设置授权码");
         }
-        if (!file.exists()) {
+        if (!srcFile.exists()) {
             throw new RuntimeException("指定的文件不存在");
         }
-
     }
 }

@@ -63,7 +63,6 @@ public class BaiduUploadTask {
      * 上传的是否是文件
      */
     private int isDir = 0;
-
     /**
      * 是否删除源文件
      */
@@ -75,6 +74,7 @@ public class BaiduUploadTask {
         this.file = file;
         this.tempPath = tempPath;
     }
+
 
     /**
      * 创建唯一的任务对象
@@ -92,6 +92,19 @@ public class BaiduUploadTask {
      * @return 文件的 secondLink 和 fsId 构成的字符串列表
      */
     public List<String> startUpload() {
+        // 文件的处理
+        if (file.isFile()) {
+            return uploadFile();
+        }
+        // 文件夹的处理 TODO
+        throw new RuntimeException("现在没做文件夹的上传");
+    }
+
+    /**
+     * 开始上传文件
+     * @return 文件的 secondLink 和 fsId 构成的字符串列表
+     */
+    private List<String> uploadFile() {
         String secondLink;
         String fsId;
         try {
@@ -126,6 +139,7 @@ public class BaiduUploadTask {
         }
         return ListUtil.toList(secondLink, fsId);
     }
+
 
     private void closeResources() {
         // 关闭连接池
@@ -237,12 +251,12 @@ public class BaiduUploadTask {
         List<Future<String>> futureList = new ArrayList<>();
         for (FragFileInfo fileInfo : fileInfos) {
             // url 不在请求体中的 path 路径需要 urlEncode
-            String UploadUrl = String.format("https://d.pcs.baidu.com/rest/2.0/pcs/superfile2?" +
+            String uploadUrl = String.format("https://d.pcs.baidu.com/rest/2.0/pcs/superfile2?" +
                     "method=upload&access_token=%s&type=tmpfile&path=%s&uploadid=%s&partseq=%d",
                                    accessToken, URLUtil.encode(appPath), uploadId, fileInfo.getPartIndex());
             Map<String, Object> requestBody = new HashMap<>(BaiduConstant.SLICE_UPLOAD_MAP_SIZE);
             requestBody.put("file", fileInfo.getTmpFile());
-            Future<String> future = BaiduUploadThread.startUpload(UploadUrl, requestBody);
+            Future<String> future = BaiduUploadThread.startUpload(uploadUrl, requestBody);
             futureList.add(future);
         }
         String secondLink;
