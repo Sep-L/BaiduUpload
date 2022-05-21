@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "baidu",
+      "type": "com.lqz.BaiduApplication",
+      "sourceType": "com.lqz.BaiduApplication"
+    }
+  ],
+  "properties": [
+    {
+      "name": "baidu.access_token",
+      "type": "java.lang.String",
+      "description": "Description for baidu.access_token."
+    }
+  ],
+  "hints": []
+}
